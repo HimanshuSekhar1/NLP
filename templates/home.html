@@ -1,0 +1,17 @@
+<!--     Here first we will extend the layout.html file where the common codes are kept  -->
+{% extends "layout.html" %}
+<!-- Create the block for unique codes -->
+{% block content %}
+  {% for post in posts %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <small class="text-muted">{{ post.date_posted }}</small>
+        </div>
+        <h2><a class="article-title" href="{{ post.link }}" target = "_blank">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+      </div>
+    </article>
+  {% endfor %}
+<!-- This is called explicit way of ending block content. Used to end like this when a lot of block content is present. -->
+{% endblock content%}  
