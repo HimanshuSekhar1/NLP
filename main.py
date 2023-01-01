@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for
+from forms import RegistrationForm, LoginForm
 # __name__ is the module where flask will look for templates and instances
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'aca09cd8b623490e5e8ef906b5072c6e'
 
 # These will be the data inside the website
 projects = [
@@ -28,6 +30,17 @@ def home():
 @app.route('/about')
 def about():
     return render_template('about.html', title = 'About')
+
+# Routes to the registration from and login form
+@app.route('/register')
+def register():
+  form = RegistrationForm()
+  return render_template('register.html', title = 'Register', form = form)
+
+@app.route('/login')
+def login():
+  form = LoginForm()
+  return render_template('login.html', title = 'Log In', form = form)
   
 # Used to run the app
 app.run(host='0.0.0.0', port=81, debug=True)
