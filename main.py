@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 # __name__ is the module where flask will look for templates and instances
 app = Flask(__name__)
@@ -32,14 +32,26 @@ def about():
     return render_template('about.html', title = 'About')
 
 # Routes to the registration from and login form
-@app.route('/register')
+@app.route('/register', methods = ['GET', 'POST'])
 def register():
   form = RegistrationForm()
+  # validate on submit will check the validity of the requests we send in registration form
+  if form.validate_on_submit():
+    # This will give a flash message that a user is created or not
+    # f is for the f string
+    flash(f'Account created for {form.username.data}!','success')
+    return redirect(url_for('home'))
   return render_template('register.html', title = 'Register', form = form)
 
-@app.route('/login')
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
   form = LoginForm()
+  if form.validate_on_submit():
+    if form.email.data == 'abc@q.com' and form.password.data == '12345':
+      flash('You have been logged in!','success')
+      return redirect(url_for('home'))
+    else:
+      flash('Login unsuccessful. Please check email and password.', 'danger')
   return render_template('login.html', title = 'Log In', form = form)
   
 # Used to run the app
